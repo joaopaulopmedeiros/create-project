@@ -9,7 +9,7 @@ A tiny and simple create-project lib. Start coding with TS and JS on an easy way
 - `npm link`
 - `mkdir <project_name> && cd <project_name>`
 - `create-project`
-- Open you favorite IDE
+- Open your favorite IDE
 
 ## Flags 
 - `--git or --g`
