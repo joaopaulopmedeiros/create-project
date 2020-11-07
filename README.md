@@ -4,6 +4,9 @@
 A tiny and simple create-project lib. Start coding with TS and JS on an easy way!
 
 ## ❓ How to use it?
+- `git clone https://github.com/joaopaulopmedeiros/create-project.git`
+- `npm install`
+- `npm link`
 - `mkdir <project_name> && cd <project_name>`
 - `create-project`
 - Open you favorite IDE
