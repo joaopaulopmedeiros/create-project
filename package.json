@@ -1,0 +1,25 @@
+{
+  "name": "@joaopaulopmedeiros/create-project",
+  "version": "1.0.0",
+  "description": "Bootstrap CLI for personal projects",
+  "main": "src/index.js",
+  "bin": {
+    "@joaopaulopmedeiros/create-project": "bin/create-project",
+    "create-project": "bin/create-project"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "CLI",
+    "create-project"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "esm": "^3.2.25"
+  }
+}
