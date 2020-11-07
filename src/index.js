@@ -3,6 +3,9 @@ import fs from "fs";
 import ncp from "ncp";
 import path from "path";
 import { promisify } from "util";
+import execa from "execa";
+import Listr from "listr";
+import { projectInstall } from "pkg-install";
 
 const access = promisify(fs.access);
 
@@ -12,6 +15,17 @@ async function copyTemplateFiles(options){
     return copy(options.templateDirectory, options.targetDirectory, {
         clobber: false,
     });
+}
+
+export async function initGit(options){
+    const result = await execa("git", ['init'], {
+        cwd: options.targetDirectory,
+    });
+    
+    if(result.failed) {
+        return Promise.reject(new Error('Falha ao inicializar Git.'));
+    }
+    return ;
 }
 
 export async function createProject(options) {
@@ -37,11 +51,25 @@ export async function createProject(options) {
         process.exit(1);
     }
 
-    console.log('Arquivos do projeto estão sendo copiados...');
+    const tasks = new Listr([
+        {
+            title: 'Copiando arquivos do projeto',
+            task: () => copyTemplateFiles(options),
+        },
+        {
+            title: 'Inicializando Git',
+            task: () => initGit(options),
+            enabled: () => options.git,
+        }, {
+            title: 'Instalando dependências do projeto',
+            task: () => projectInstall({
+                cwd: options.targetDirectory,
+            }),
+            skip: () => !options.runInstall ? 'Digite --install para automaticamente instalar suas dependências' : undefined,
+        }
+    ])
 
-    await copyTemplateFiles(options);
-
-    console.log('$s Projeto saindo do forno!', chalk.green.bold('SUCESSO'));
+    await tasks.run();
 
     return true; 
 }
